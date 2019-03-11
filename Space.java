@@ -24,6 +24,29 @@ public class Space implements Comparable<Space>{
             return space.getX()-x;
         }
     }
+    public String toString(){
+        return getX() + ", " + getY();
+    }
+    public ArrayList<Space> getSurroundingSpaces(){
+        ArrayList<Space> result = new ArrayList<>();
+        result.add(new Space(x-1, y-1));
+        result.add(new Space(x-1, y+1));
+        result.add(new Space(x-1, y));
+        result.add(new Space(x, y-1));
+        result.add(new Space(x, y+1));
+        result.add(new Space(x+1, y-1));
+        result.add(new Space(x+1, y+1));
+        result.add(new Space(x+1, y));
+        return result;
+    }
+    public ArrayList<Space> getAdjacentSpaces(){
+        ArrayList<Space> result = new ArrayList<>();
+        result.add(new Space(x-1, y));
+        result.add(new Space(x, y-1));
+        result.add(new Space(x, y+1));
+        result.add(new Space(x+1, y));
+        return result;
+    }
     //getAdjacentSpaces
     //getSurroundingSpaces
 

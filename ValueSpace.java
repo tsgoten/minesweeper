@@ -11,4 +11,7 @@ public class ValueSpace extends Space{
     public void iterateValue(){
         value++;
     }
+    public String toString(){
+        return value+"";
+    }
 }

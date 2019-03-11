@@ -2,17 +2,17 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private int w, h;
-    int flags;
+    private int width, height;
+    int flagsAvailable;
     int [][] board;
 
     ArrayList<int []> mineCoordinates;
     ArrayList<ArrayList<Integer>> blob;
     public Game(int dimW, int dimH, int numberOfMines){
-        w = dimW;
-        h = dimH;
-        flags = numberOfMines;
-        board = new int[w][h];
+        width = dimW;
+        height = dimH;
+        flagsAvailable = numberOfMines;
+        board = new int[width][height];
 
         mineCoordinates = new ArrayList<>();
         blob = new ArrayList<>();
@@ -36,47 +36,6 @@ public class Game {
 
     }
     public void generateBlob(int buttonX, int buttonY){
-        ArrayList<int []> checkingCurrently = new ArrayList<>();
-        checkingCurrently.add(coord(buttonX, buttonY));
-        while(checkingCurrently.size()>0){
-            ArrayList<int []> checkingNext = new ArrayList<>();
-            for(int [] r : checkingCurrently){
-                boolean partOfBlob = false;
-                for(int [] a : getAdjacentSpaces(r)){
-                    if(boardVal(a)==0){
-                        ArrayList <Integer> aL = new ArrayList<>();
-                        aL.add(a[0]);
-                        aL.add(a[1]);
-                        if(!blob.contains(aL)){
-                            checkingNext.add(a);
-                        }
-                        partOfBlob = true;
-                    }
-                }
-                if(partOfBlob){
-                    boolean isUnique = true;
-                    // for(int [] h : blob){
-                    //     if(h[0]==r[0] && h[1]==r[1])
-                    //         isUnique = false;
-                    // }
-                    if(isUnique){
-                        ArrayList<Integer> re = new ArrayList<>();
-                        re.add(r[0]);
-                        re.add(r[1]);
-                        blob.add(re);
-
-                    }
-                }
-            }
-            System.out.println(blob);
-            checkingCurrently.clear();
-            checkingCurrently.addAll(checkingNext);
-            checkingNext.clear();
- 
-            // for(int [] a : blob){
-            //     System.out.println("blob: " + a[0] + " " + a[1]);
-            // }
-        }
     
     }
     public int boardVal(int [] a){
@@ -120,10 +79,6 @@ public class Game {
         result.add(coord(x, y+1));
         result.add(coord(x+1, y+1));
         return result;
-    }
-    public int [] coord(int x, int y){
-        int [] r = {x, y};
-        return r;
     }
 
     public void printBoard(){

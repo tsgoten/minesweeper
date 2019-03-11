@@ -22,5 +22,8 @@ public class MineSpace extends Space {
     public int getNumberOfMines(){
         return mineList.size();
     }
+    public String toString(){
+        return "M";
+    }
 
 }
