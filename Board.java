@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Board {
 
     private int width, height;
@@ -16,7 +14,9 @@ public class Board {
         board[initialY][initialX] = initialSpace;
         generateMines();
         addNumbers();
+        printBoard();
         createBlob(initialSpace);
+        createBlobFinalTouches();
         printBoard();
     }
     private void generateMines(){
@@ -27,17 +27,19 @@ public class Board {
     }
     private void addNumbers(){
         for(MineSpace m : MineSpace.mineList){
-            try {
-                for(Space s : m.getSurroundingSpaces()){
+            for(Space s : m.getSurroundingSpaces()){
+                try{
                     if(get(s) == null){
                         add(new ValueSpace(s.getX(), s.getY(), 1));
                     }
                     else if (get(s) instanceof ValueSpace){
                             ((ValueSpace) get(s)).iterateValue();
                     }
+                }catch (ArrayIndexOutOfBoundsException e) { 
+
                 }
+
             }
-            catch (ArrayIndexOutOfBoundsException e) { }
         }
         for(int i=0;i<height;i++)
             for(int j=0;j<width;j++)
@@ -45,17 +47,30 @@ public class Board {
                     add(new EmptySpace(j, i));
     }
     private void createBlob(Space s){
+        System.out.println(EmptySpace.blobSpaces);      
         if(!(get(s) instanceof EmptySpace) || s == null)
             return;
         else {
             for(Space adj : s.getAdjacentSpaces()){
-                createBlob(adj);
+                if(get(adj) instanceof EmptySpace && !((EmptySpace)get(adj)).partOfBlob && get(adj)!=null){
+                    ((EmptySpace) s).setAsPartOfBlob();
+                    createBlob(get(adj));
+                }
             }
         }
-        if(s instanceof EmptySpace)
-            ((EmptySpace) s).setAsPartOfBlob();
         return;
 
+    }
+    private void createBlobFinalTouches(){
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                if(get(i,j) instanceof EmptySpace)
+                    for(Space adj : get(i,j).getAdjacentSpaces()){
+                        if(get(adj) instanceof EmptySpace && ((EmptySpace) get(adj)).isInBlob())
+                            ((EmptySpace)get(i,j)).setAsPartOfBlob();
+                    }
+            }
+        }
     }
     public void add(Space space){
         board[space.getY()][space.getX()] = space;
@@ -88,7 +103,5 @@ public class Board {
             System.out.println();
         }
     }
-    public static void main (String [] args){
-        Board app = new Board(9, 9, 10, 3,3);
-    }
+    
 }

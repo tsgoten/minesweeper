@@ -11,8 +11,9 @@ public class Minesweeper extends JPanel implements ActionListener, MouseListener
     JMenuBar menuBar;
     JMenu menu;
     JMenuItem item1;
-    int dimW = 9; 
-    int dimH = 9;
+    int dimW = 20; 
+    int dimH = 20;
+    int numberOfMines = 10;
     final int scale = 50;
     JToggleButton[][] toggles;
 
@@ -20,7 +21,7 @@ public class Minesweeper extends JPanel implements ActionListener, MouseListener
 
     ImageIcon mine, flag, one, two, three, four, five, six, seven, eight;
 
-    Game game;
+    Board board;
 
     public Minesweeper(){
         frame = new JFrame("Minesweeper");
@@ -61,8 +62,6 @@ public class Minesweeper extends JPanel implements ActionListener, MouseListener
         seven = new ImageIcon(seven.getImage().getScaledInstance(frame.getWidth()/dimW, frame.getHeight()/dimH, Image.SCALE_SMOOTH));
         eight = new ImageIcon("eight.png");
         eight = new ImageIcon(eight.getImage().getScaledInstance(frame.getWidth()/dimW, frame.getHeight()/dimH, Image.SCALE_SMOOTH));
-
-        game = new Game(dimW, dimH, 10);
 
         menu.add(item1);
         menuBar.add(menu);
@@ -107,12 +106,17 @@ public class Minesweeper extends JPanel implements ActionListener, MouseListener
                     if(e.getSource() == toggles[x][y]){
                         if(firstClick){
                             firstClick = false;
-                            game.firstClick(y, x);
+                            board = new Board(dimW, dimH, numberOfMines, y, x);
+                            for(EmptySpace em : EmptySpace.blobSpaces){
+                                toggles[em.getY()][em.getX()].setSelected(true);
+                            }
                         }
-                        for(int i=0;i<game.board.length;i++){
-                            for(int j=0;j<game.board[0].length;j++){
-                                if(toggles[i][j].isSelected())
-                                    switch(game.board[i][j]){
+                        for(int i=0;i<board.getHeight();i++){
+                            for(int j=0;j<board.getWidth();j++){
+                                if(toggles[i][j].isSelected() && board.get(j, i) instanceof ValueSpace){
+                                    switch(((ValueSpace)board.get(j,i)).value){
+                                        case 0:
+                                        break;
                                         case 1:
                                             toggles[i][j].setIcon(one);
                                         break;
@@ -138,10 +142,16 @@ public class Minesweeper extends JPanel implements ActionListener, MouseListener
                                             toggles[i][j].setIcon(eight);
                                         break;
                                         default:
-                                            if(game.board[i][j]<0)
-                                                toggles[i][j].setIcon(mine);
+                                            toggles[i][j].setIcon(mine);
                                         break;
                                     }
+                                    
+                                    
+                                }
+                                
+                                if(toggles[i][j].isSelected() && board.get(j, i) instanceof MineSpace){
+                                    toggles[i][j].setIcon(mine);
+                                }
                             }
                         }
 
@@ -153,7 +163,7 @@ public class Minesweeper extends JPanel implements ActionListener, MouseListener
     public void mouseClicked(MouseEvent e){
     }
     public static void main (String [] args){
-        Minesweeper app = new Minesweeper();
+        Minesweeper game = new Minesweeper();
     }
 
 }
