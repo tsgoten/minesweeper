@@ -9,10 +9,11 @@ public class Minesweeper extends JPanel implements ActionListener, MouseListener
     JFrame frame;
 
     JMenuBar menuBar;
-    JMenu menu;
-    JMenuItem item1;
-    int dimW = 20; 
-    int dimH = 20;
+    JMenu menuGame, menuTheme, menuHelp;
+    JMenuItem itemGameBeginner, itemGameIntermediate, itemGameExpert;
+    JMenuItem itemThemeDefault, itemThemeZelda, itemThemeMario;
+    int dimW = 9; 
+    int dimH = 9;
     int numberOfMines = 10;
     final int scale = 50;
     JToggleButton[][] toggles;
@@ -29,9 +30,22 @@ public class Minesweeper extends JPanel implements ActionListener, MouseListener
         frame.setSize(dimW*scale, dimH*scale+20);
 
         menuBar = new JMenuBar();
-        menu = new JMenu("Game");
-        item1 = new JMenuItem("Beginner");
-        item1.addActionListener(this);
+        menuTheme = new JMenu("Theme");
+        menuGame = new JMenu("Game");
+        menuHelp = new JMenu("Help");
+        itemGameBeginner = new JMenuItem("Beginner");
+        itemGameBeginner.addActionListener(this);
+        itemGameIntermediate = new JMenuItem("Intermediate");
+        itemGameIntermediate.addActionListener(this);
+        itemGameExpert = new JMenuItem("Expert");
+        itemGameExpert.addActionListener(this);
+        itemThemeDefault = new JMenuItem("Default");
+        itemThemeDefault.addActionListener(this);
+        itemThemeZelda = new JMenuItem("Zelda");
+        itemThemeZelda.addActionListener(this);
+        itemThemeMario = new JMenuItem("Mario");
+        itemThemeMario.addActionListener(this);
+        
         toggles = new JToggleButton[dimH][dimW];
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(dimH, dimW));
@@ -63,8 +77,15 @@ public class Minesweeper extends JPanel implements ActionListener, MouseListener
         eight = new ImageIcon("eight.png");
         eight = new ImageIcon(eight.getImage().getScaledInstance(frame.getWidth()/dimW, frame.getHeight()/dimH, Image.SCALE_SMOOTH));
 
-        menu.add(item1);
-        menuBar.add(menu);
+        menuGame.add(itemGameBeginner);
+        menuGame.add(itemGameIntermediate);
+        menuGame.add(itemGameExpert);
+        menuTheme.add(itemThemeDefault);
+        menuTheme.add(itemThemeMario);
+        menuTheme.add(itemThemeZelda);
+        menuBar.add(menuGame);
+        menuBar.add(menuTheme);
+        menuBar.add(menuHelp);
         frame.add(menuBar, BorderLayout.NORTH);
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
