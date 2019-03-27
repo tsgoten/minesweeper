@@ -14,10 +14,8 @@ public class Board {
         board[initialY][initialX] = initialSpace;
         generateMines();
         addNumbers();
-        printBoard();
         createBlob(initialSpace);
         createBlobFinalTouches();
-        printBoard();
     }
     private void generateMines(){
         for(int i=0;i<mines;i++){
@@ -47,7 +45,6 @@ public class Board {
                     add(new EmptySpace(j, i));
     }
     private void createBlob(Space s){
-        System.out.println(EmptySpace.blobSpaces);      
         if(!(get(s) instanceof EmptySpace) || s == null)
             return;
         else {
@@ -102,6 +99,10 @@ public class Board {
             }
             System.out.println();
         }
+    }
+    public void clear(){
+        MineSpace.mineList.clear();
+        EmptySpace.blobSpaces.clear();
     }
     
 }
