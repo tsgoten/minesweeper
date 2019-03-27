@@ -113,7 +113,6 @@ public class Minesweeper extends JPanel implements ActionListener, MouseListener
             case 2:
                 flag = new ImageIcon("zFlag.png");
                 mine = new ImageIcon("zMine.png");
-                System.out.println("here");
             break;
             default:
                 flag = new ImageIcon("dFlag.png");
