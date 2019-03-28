@@ -283,7 +283,7 @@ public class Minesweeper extends JPanel implements ActionListener, MouseListener
                                 if(toggles[i][j].isSelected() && game.getBoard().get(j, i) instanceof EmptySpace){
                                     toggles[i][j].setIcon(white);
                                 }
-                                if(toggles[i][j].isSelected() && game.getBoard().get(j, i) instanceof MineSpace){
+                                if(toggles[i][j].isSelected() && game.getBoard().get(j, i) instanceof MineSpace && toggles[i][j].getIcon()!=flag){
                                     toggles[i][j].setIcon(mine);
                                     time.cancel();
                                     switch((int)JOptionPane.showConfirmDialog(frame, "Do you wish to restart?", "Game Over :(", JOptionPane.YES_NO_OPTION)){
